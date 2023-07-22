@@ -19,7 +19,7 @@ namespace _Scripts
             _defaultMaterials = _renderer?.sharedMaterials;
         }
 
-        public void Interact()
+        public void Interact(GameObject gameObject)
         {
             Debug.Log("Interacting with " + gameObject.name);
             if (!_isHighlighted)

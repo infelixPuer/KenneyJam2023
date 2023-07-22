@@ -1,7 +1,9 @@
-﻿namespace _Scripts
+﻿using UnityEngine;
+
+namespace _Scripts
 {
     public interface IInteractable
     {
-        public void Interact();
+        public void Interact(GameObject gameObject);
     }
 }
