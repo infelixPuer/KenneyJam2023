@@ -12,6 +12,9 @@ namespace _Scripts
         [SerializeField] 
         private float _speed;
 
+        [SerializeField] 
+        private float _interactionDistance;
+
         public float Speed;
         
         private Camera _cam;
@@ -21,6 +24,7 @@ namespace _Scripts
         private float _horizontal;
         private float _vertical;
         private Vector3 _moveDirection;
+        private static readonly int IsRunning = Animator.StringToHash("IsRunning");
 
         private void Awake()
         {
@@ -38,6 +42,7 @@ namespace _Scripts
             GetInput();
             Rotate();
             Animate();
+            GetInteractions();
             
             Speed = _rb.velocity.magnitude;
         }
@@ -69,16 +74,30 @@ namespace _Scripts
             _vertical = Input.GetAxis("Vertical");
         }
 
+        private void GetInteractions()
+        {
+            if (!Input.GetKeyDown(KeyCode.E)) return;
+
+            var ray = _cam.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0));
+
+            if (!Physics.Raycast(ray, out var hit, _interactionDistance)) return;
+
+            var interactable = hit.collider.GetComponent<IInteractable>();
+            interactable?.Interact();
+        }
+
         private void Move()
         {
-            _moveDirection = transform.forward * _vertical + transform.right * _horizontal;
+            var tran = transform;
+            
+            _moveDirection = tran.forward * _vertical + tran.right * _horizontal;
 
-            _rb.AddForce(_moveDirection.normalized * _speed * 10f, ForceMode.Force);
+            _rb.AddForce(_moveDirection.normalized * (_speed * 10f), ForceMode.Force);
         }
         
         private void Animate()
         {
-            _anim.SetBool("IsRunning", _rb.velocity.magnitude > 0.1f);
+            _anim.SetBool(IsRunning, _rb.velocity.magnitude > 0.1f);
         }
     }
 }
