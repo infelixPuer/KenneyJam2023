@@ -1,9 +1,16 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace _Scripts
 {
-    public class Apple : MonoBehaviour, IPickable
+    public enum ProductType
+    {
+        Proteins,
+        Fats,
+        Vegetables,
+        Carbohydrates
+    }
+
+    public class PickableObject : MonoBehaviour, IPickable
     {
         private Rigidbody _rb;
         private Transform _pickUpPoint;

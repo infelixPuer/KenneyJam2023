@@ -10,7 +10,7 @@ namespace _Scripts
         
         private void OnCollisionEnter(Collision other)
         {
-            if (other.gameObject.TryGetComponent(out Apple apple))
+            if (other.gameObject.TryGetComponent(out PickableObject apple))
             {
                 var rb = apple.GetComponent<Rigidbody>();
                 
